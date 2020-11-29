@@ -17,6 +17,8 @@ YADISK_ENABLE = False  # True if Yandex Disk folder or local
 YADISK_IMAGE_FOLDER = '/Pictures/Events/201910_USA'  # remote on yandex disk or local
 YADISK_IMAGES_COUNT_DOWNLOAD = 50
 
+APP_IMAGE_MIN_WIDTH = -1  # -1 to ignore setting or use the provided value
+APP_IMAGE_MIN_HEIGHT = -1  # -1 to ignore setting or use the provided value
 APP_USE_ONLY_LANDSCAPE = True
 APP_CLEAR_CACHE_CYCLE = True
 
@@ -79,6 +81,10 @@ def fetch_photos() -> list:
 
 
 def can_use_photo(image_width: int, image_height: int):
+    if APP_IMAGE_MIN_WIDTH != -1 and image_width < APP_IMAGE_MIN_WIDTH:
+        return False
+    if APP_IMAGE_MIN_HEIGHT != -1 and image_height < APP_IMAGE_MIN_HEIGHT:
+        return False
     return True if APP_USE_ONLY_LANDSCAPE is False or \
                    (APP_USE_ONLY_LANDSCAPE is True and int(image_width) > int(image_height)) else False
 
